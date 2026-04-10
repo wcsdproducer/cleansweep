@@ -1,0 +1,238 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero-home",
+      "description": "A bright, clean, modern living room",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2FCleanSweep%20Image%2002.png?alt=media&token=f431173d-0212-4f54-a77d-ff274ca9e5e5",
+      "imageHint": "modern living room"
+    },
+    {
+      "id": "service-standard",
+      "description": "Professional cleaning of a kitchen countertop",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2FCleanSweep%20Image%2003.png?alt=media&token=2a1a54e8-ace6-4965-ba90-ef1a609dc0ca",
+      "imageHint": "clean kitchen"
+    },
+    {
+      "id": "service-deep",
+      "description": "Deep cleaning of a bathroom",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2FCleanSweep%20Image%2004.png?alt=media&token=00eba09e-9408-4cf0-aa81-0a5fe937ada3",
+      "imageHint": "clean bathroom"
+    },
+    {
+      "id": "service-moving",
+      "description": "Clean Sweep Move In / Move Out Service",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2FCleanSweep%20Image%2005.png?alt=media&token=8fae7dc6-3e90-4e43-aae3-5a65c8fdc5d9",
+      "imageHint": "move clean"
+    },
+    {
+      "id": "greener-hero",
+      "description": "Nature and clean home background",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2FCleanSweep%20Image%2002.png?alt=media&token=f431173d-0212-4f54-a77d-ff274ca9e5e5",
+      "imageHint": "nature cleaning"
+    },
+    {
+      "id": "greener-baby-dog",
+      "description": "Baby and a small dog on a clean floor",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2FCleanSweep%20Image%2007.png?alt=media&token=181c60aa-d008-48ea-823c-457ffec58adc",
+      "imageHint": "baby dog"
+    },
+    {
+      "id": "greener-family",
+      "description": "Family relaxing in a clean living room",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2FCleanSweep%20Image%2008.png?alt=media&token=0b2f5e2c-9d6d-4aec-b31a-e9e6969af592",
+      "imageHint": "family home"
+    },
+    {
+      "id": "about-hero",
+      "description": "Clean Sweep team and values",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2FCleanSweep%20Image%2006.png?alt=media&token=f6f49091-5afd-477e-ba05-0a631b19ca53",
+      "imageHint": "modern kitchen"
+    },
+    {
+      "id": "cleaning-pro",
+      "description": "A professional cleaner at work",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2FCleanSweep%20Image%2003.png?alt=media&token=2a1a54e8-ace6-4965-ba90-ef1a609dc0ca",
+      "imageHint": "cleaner professional"
+    },
+    {
+      "id": "beliefs",
+      "description": "A friendly service experience",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2FCleanSweep%20Image%2004.png?alt=media&token=00eba09e-9408-4cf0-aa81-0a5fe937ada3",
+      "imageHint": "friendly cleaner"
+    },
+    {
+      "id": "big-deal",
+      "description": "Happy family in a clean home",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2FCleanSweep%20Image%2005.png?alt=media&token=8fae7dc6-3e90-4e43-aae3-5a65c8fdc5d9",
+      "imageHint": "happy family home"
+    },
+    {
+      "id": "resource-bg",
+      "description": "Abstract clean background",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2F2.jpg?alt=media",
+      "imageHint": "clean background"
+    },
+    {
+      "id": "blog-hero",
+      "description": "Clean home blog banner",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2FCleanSweep%20Image%2002.png?alt=media&token=f431173d-0212-4f54-a77d-ff274ca9e5e5",
+      "imageHint": "clean room"
+    },
+    {
+      "id": "faq-hero",
+      "description": "Helpful customer service",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2FCleanSweep%20Image%2003.png?alt=media&token=2a1a54e8-ace6-4965-ba90-ef1a609dc0ca",
+      "imageHint": "bright interior"
+    },
+    {
+      "id": "service-template-hero",
+      "description": "Service detail hero image",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2FCleanSweep%20Image%2001.png?alt=media&token=da9dc6d1-c69f-4c0d-83ed-b41eab8b165f",
+      "imageHint": "clean space"
+    },
+    {
+      "id": "blog-teaser-1",
+      "description": "Blog teaser 1",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2FCleanSweep%20Image%2001.png?alt=media&token=da9dc6d1-c69f-4c0d-83ed-b41eab8b165f",
+      "imageHint": "clean kitchen"
+    },
+    {
+      "id": "blog-teaser-2",
+      "description": "Blog teaser 2",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2FCleanSweep%20Image%2002.png?alt=media&token=f431173d-0212-4f54-a77d-ff274ca9e5e5",
+      "imageHint": "clean living room"
+    },
+    {
+      "id": "blog-teaser-3",
+      "description": "Blog teaser 3",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2FCleanSweep%20Image%2003.png?alt=media&token=2a1a54e8-ace6-4965-ba90-ef1a609dc0ca",
+      "imageHint": "cleaning professional"
+    },
+    {
+      "id": "blog-teaser-4",
+      "description": "Blog teaser 4",
+      "imageUrl": "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/Images%2FCleanSweep%20Image%2004.png?alt=media&token=00eba09e-9408-4cf0-aa81-0a5fe937ada3",
+      "imageHint": "clean bathroom"
+    },
+    {
+      "id": "blog-1",
+      "description": "Deep Cleaning Kitchen",
+      "imageUrl": "https://picsum.photos/seed/blog-kitchen-clean/800/600",
+      "imageHint": "kitchen cleaning"
+    },
+    {
+      "id": "blog-2",
+      "description": "Cleaning for Busy Parents",
+      "imageUrl": "https://picsum.photos/seed/blog-busy-family/800/600",
+      "imageHint": "cleaning house"
+    },
+    {
+      "id": "blog-3",
+      "description": "Eco-Friendly Cleaning",
+      "imageUrl": "https://picsum.photos/seed/blog-eco-clean/800/600",
+      "imageHint": "green cleaning"
+    },
+    {
+      "id": "blog-4",
+      "description": "Move-Out Cleaning",
+      "imageUrl": "https://picsum.photos/seed/blog-moving-out/800/600",
+      "imageHint": "moving cleaning"
+    },
+    {
+      "id": "blog-5",
+      "description": "Allergy Season Cleaning",
+      "imageUrl": "https://picsum.photos/seed/blog-allergy-dust/800/600",
+      "imageHint": "dusting home"
+    },
+    {
+      "id": "blog-6",
+      "description": "Post-Holiday Recovery",
+      "imageUrl": "https://picsum.photos/seed/blog-holiday-reset/800/600",
+      "imageHint": "holiday cleaning"
+    },
+    {
+      "id": "blog-7",
+      "description": "Organizing Small Spaces",
+      "imageUrl": "https://picsum.photos/seed/blog-organized-room/800/600",
+      "imageHint": "organizing cleaning"
+    },
+    {
+      "id": "blog-8",
+      "description": "Cleaning for Pet Owners",
+      "imageUrl": "https://picsum.photos/seed/blog-pet-fur/800/600",
+      "imageHint": "pet cleaning"
+    },
+    {
+      "id": "blog-9",
+      "description": "Clean Baseboards",
+      "imageUrl": "https://picsum.photos/seed/blog-baseboards/800/600",
+      "imageHint": "baseboard cleaning"
+    },
+    {
+      "id": "blog-10",
+      "description": "Bathroom Mold Prevention",
+      "imageUrl": "https://picsum.photos/seed/blog-bathroom-tiles/800/600",
+      "imageHint": "bathroom scrubbing"
+    },
+    {
+      "id": "blog-11",
+      "description": "Spring Cleaning Masterlist",
+      "imageUrl": "https://picsum.photos/seed/blog-spring-clean/800/600",
+      "imageHint": "spring cleaning"
+    },
+    {
+      "id": "blog-12",
+      "description": "Cleaning Myth Busters",
+      "imageUrl": "https://picsum.photos/seed/blog-cleaning-myths/800/600",
+      "imageHint": "cleaning spray"
+    },
+    {
+      "id": "blog-13",
+      "description": "Home Office Cleaning",
+      "imageUrl": "https://picsum.photos/seed/blog-home-office/800/600",
+      "imageHint": "office cleaning"
+    },
+    {
+      "id": "blog-14",
+      "description": "Eco-Friendly Laundry Tips",
+      "imageUrl": "https://picsum.photos/seed/blog-laundry-room/800/600",
+      "imageHint": "laundry cleaning"
+    },
+    {
+      "id": "blog-15",
+      "description": "Importance of Window Cleaning",
+      "imageUrl": "https://picsum.photos/seed/blog-clean-windows/800/600",
+      "imageHint": "window cleaning"
+    },
+    {
+      "id": "blog-16",
+      "description": "First-Time Homeowner Guide",
+      "imageUrl": "https://picsum.photos/seed/blog-new-house/800/600",
+      "imageHint": "house cleaning"
+    },
+    {
+      "id": "blog-17",
+      "description": "Reducing Air Pollution",
+      "imageUrl": "https://picsum.photos/seed/blog-fresh-air/800/600",
+      "imageHint": "vacuum cleaning"
+    },
+    {
+      "id": "blog-18",
+      "description": "Cleaning for Seniors",
+      "imageUrl": "https://picsum.photos/seed/blog-senior-home/800/600",
+      "imageHint": "senior cleaning"
+    },
+    {
+      "id": "blog-19",
+      "description": "Preparing for House Guests",
+      "imageUrl": "https://picsum.photos/seed/blog-guest-bedroom/800/600",
+      "imageHint": "guest cleaning"
+    },
+    {
+      "id": "blog-20",
+      "description": "Value of Recurring Cleaning",
+      "imageUrl": "https://picsum.photos/seed/blog-housekeeping/800/600",
+      "imageHint": "professional cleaning"
+    }
+  ]
+}
