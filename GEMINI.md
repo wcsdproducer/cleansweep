@@ -4,38 +4,59 @@ Read this entire file before starting any task.
 
 ## Project Identity
 
-**CleanSweep** is the Customer-facing booking app for the CleanSweep cleaning services platform. It allows homeowners, property managers, and Airbnb hosts to browse, book, and manage professional cleaning services.
+**CleanSweep** is a Cleaning Services Marketplace connecting homeowners, property managers, and Airbnb hosts with professional cleaning services.
 
-- **Stack**: Next.js + TypeScript + Firebase (currently archived in Firebase Studio — needs code export)
-- **Firebase Project**: `studio-3673070449-f277c` (shared with CleanSweep Connect provider app)
-- **GitHub Repo**: `wcsdproducer/cleansweep` (code needs to be pushed from Firebase Studio)
-- **Hosting Backend**: `studio` on Firebase App Hosting
-- **Status**: Archived in Firebase Studio — needs code migration to this workspace
+- **Stack**: Next.js + TypeScript + Tailwind CSS + Genkit + Firebase
+- **Firebase Project**: `studio-3673070449-f277c`
+- **Dev server**: `npm run dev`
+- **Genkit dev**: `npm run genkit:dev`
+- **Build**: `npm run build`
 
 ## Architecture
 
-This is one of **two** CleanSweep apps (Customer + Provider) that share the same Firestore database:
+```
+src/
+├── ai/              # Genkit AI flows
+├── app/             # Next.js App Router
+│   ├── about/       # About page
+│   ├── areas/       # Service areas
+│   ├── blog/        # Blog
+│   ├── contact/     # Contact form
+│   ├── dashboard/   # Client dashboard
+│   ├── faq/         # FAQ
+│   ├── greener-cleaning/ # Eco cleaning info
+│   ├── login/       # Authentication
+│   ├── schedules/   # Booking schedules
+│   ├── services/    # Service listings
+│   └── specialty/   # Specialty cleaning services
+├── components/      # Shared React components
+├── firebase/        # Firebase config & init
+├── hooks/           # Custom React hooks
+└── lib/             # Utilities
+```
 
-| App | Workspace | Role |
-|---|---|---|
-| **CleanSweep** | `CleanSweep/` | Customer-facing booking app |
-| **CleanSweep Connect** | `CleanSweep Connect/` | Service provider management app |
-| **Admin** | Mission Control (GravityClaw) | Business admin — bookings, clients, analytics |
+## Key Conventions
 
-> **IMPORTANT**: Both apps read/write the same Firestore database. Schema changes affect both apps.
+- Firebase project `studio-3673070449-f277c` (Firebase Studio origin)
+- Uses Genkit for AI flows
+- Tailwind CSS for styling
+- `@/` path alias maps to `./src/*`
 
-## Business Context
+## Build & Deploy
 
-- Target audience: Homeowners, property managers, Airbnb hosts
-- Value prop: Easy booking of professional cleaning services
-- Content tone: Friendly, satisfying, visual — let results speak
-- Website: cleansweepclean.com
+```bash
+npm run dev              # Local dev
+npm run build            # Production build
+npm run typecheck        # tsc --noEmit
+npm run genkit:dev       # Genkit dev server
+```
 
 ## Owner
 
 - **Jack Freeman** (John Freeman / wcsdproducer)
 - Part of the GravityClaw ecosystem
 - Mission Control monitors this workspace
+- Website: cleansweepclean.com
 
 ## Self-Correcting Rules Engine
 
@@ -44,13 +65,12 @@ This is one of **two** CleanSweep apps (Customer + Provider) that share the same
 1. When the user corrects you or you make a mistake, **immediately append a new rule** to the "Learned Rules" section below.
 2. Format: `N. [CATEGORY] Never/Always do X — because Y.`
 3. Categories: `[STYLE]`, `[CODE]`, `[ARCH]`, `[TOOL]`, `[PROCESS]`, `[DATA]`, `[UX]`, `[OTHER]`
-4. Before starting any task, scan all rules for relevant constraints.
-5. Higher-numbered rules win over lower-numbered ones.
 
 ---
 
 ## Learned Rules
 
 <!-- New rules are appended below this line. Do not edit above this section. -->
-1. [DATA] Always coordinate schema changes with CleanSweep Connect — both apps share the same Firestore database.
-2. [CODE] Always use `npm` — project uses package-lock.json.
+1. [CODE] Always use `npm` — project uses package-lock.json.
+2. [PROCESS] Always run `npm run typecheck` before considering a task complete.
+3. [ARCH] Firebase project is `studio-3673070449-f277c` — a Firebase Studio legacy project.

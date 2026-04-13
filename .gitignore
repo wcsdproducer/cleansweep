@@ -36,3 +36,6 @@ Thumbs.db
 
 # Misc
 *.tsbuildinfo
+
+# Bot memory database
+.data/
