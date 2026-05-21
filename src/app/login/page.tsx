@@ -79,7 +79,7 @@ export default function LoginPage() {
               {currentHost}
             </p>
             <p className="text-xs text-muted-foreground">
-              Please copy the domain above and add it to <strong>Authentication > Settings > Authorized domains</strong> in the Firebase Console.
+              Please copy the domain above and add it to <strong>Authentication {'>'} Settings {'>'} Authorized domains</strong> in the Firebase Console.
             </p>
           </div>
         )

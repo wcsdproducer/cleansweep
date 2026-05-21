@@ -4,7 +4,7 @@ import * as fs from "fs";
 import * as path from "path";
 import axios from "axios";
 import * as cheerio from "cheerio";
-import cron from "node-cron";
+import * as cron from "node-cron";
 import { createMemoryStore, MemoryStore } from "./memoryStore.js";
 
 // ──────────────────────────────────────────────
