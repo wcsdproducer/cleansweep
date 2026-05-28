@@ -1,0 +1,612 @@
+{
+  "entities": {
+    "Customer": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Customer",
+      "type": "object",
+      "description": "Represents a registered user of Sparkle Pro, capable of logging into the customer portal and managing their cleaning services.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Customer entity."
+        },
+        "externalAuthId": {
+          "type": "string",
+          "description": "Identifier linking this customer to an external authentication system. This is not for storing passwords or sensitive authentication data."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the customer."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the customer."
+        },
+        "email": {
+          "type": "string",
+          "description": "The primary email address of the customer, used for communication and login.",
+          "format": "email"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The contact phone number of the customer."
+        },
+        "preferredAddressStreet": {
+          "type": "string",
+          "description": "The street address for the customer's primary property."
+        },
+        "preferredAddressCity": {
+          "type": "string",
+          "description": "The city for the customer's primary property."
+        },
+        "preferredAddressState": {
+          "type": "string",
+          "description": "The state for the customer's primary property."
+        },
+        "preferredAddressZipCode": {
+          "type": "string",
+          "description": "The zip code for the customer's primary property."
+        },
+        "registrationDate": {
+          "type": "string",
+          "description": "The date and time when the customer account was registered.",
+          "format": "date-time"
+        },
+        "preferredCommunicationMethod": {
+          "type": "string",
+          "description": "The customer's preferred method for receiving communications (e.g., 'Email', 'SMS')."
+        }
+      },
+      "required": [
+        "id",
+        "externalAuthId",
+        "firstName",
+        "lastName",
+        "email",
+        "registrationDate"
+      ]
+    },
+    "Quote": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Quote",
+      "type": "object",
+      "description": "Stores details for a cleaning service estimate requested by a user, forming the basis for booking.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Quote entity."
+        },
+        "customerId": {
+          "type": "string",
+          "description": "Reference to the Customer who requested the quote. (Relationship: Customer 1:N Quote)"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name provided by the user for the quote."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name provided by the user for the quote."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address provided for communication regarding the quote.",
+          "format": "email"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The contact phone number provided for the quote."
+        },
+        "addressStreet": {
+          "type": "string",
+          "description": "The street address of the property to be cleaned."
+        },
+        "addressCity": {
+          "type": "string",
+          "description": "The city of the property to be cleaned."
+        },
+        "addressState": {
+          "type": "string",
+          "description": "The state of the property to be cleaned."
+        },
+        "addressZipCode": {
+          "type": "string",
+          "description": "The zip code of the property to be cleaned."
+        },
+        "homeType": {
+          "type": "string",
+          "description": "The type of home (e.g., 'House', 'Apartment', 'Condo')."
+        },
+        "numberOfBedrooms": {
+          "type": "number",
+          "description": "The number of bedrooms in the property."
+        },
+        "numberOfBathrooms": {
+          "type": "number",
+          "description": "The number of bathrooms in the property."
+        },
+        "squareFootage": {
+          "type": "number",
+          "description": "The estimated square footage of the property."
+        },
+        "cleaningFrequency": {
+          "type": "string",
+          "description": "The requested cleaning frequency (e.g., 'Weekly', 'Bi-weekly', 'Monthly', 'One-time')."
+        },
+        "serviceId": {
+          "type": "string",
+          "description": "Reference to the Service type requested (e.g., Standard, Deep Clean). (Relationship: Service 1:N Quote)"
+        },
+        "desiredDate": {
+          "type": "string",
+          "description": "The user's desired date for the cleaning service.",
+          "format": "date-time"
+        },
+        "additionalNotes": {
+          "type": "string",
+          "description": "Any additional notes or specific instructions from the user."
+        },
+        "estimatedCost": {
+          "type": "number",
+          "description": "The estimated cost for the requested cleaning service."
+        },
+        "status": {
+          "type": "string",
+          "description": "The current status of the quote (e.g., 'Pending', 'Quoted', 'Booked', 'Canceled')."
+        },
+        "submissionDateTime": {
+          "type": "string",
+          "description": "The date and time when the quote request was submitted.",
+          "format": "date-time"
+        },
+        "generatedCleaningPlanItemIds": {
+          "type": "array",
+          "description": "References to ChecklistItem IDs included in the personalized cleaning plan for this quote. (Relationship: ChecklistItem N:N Quote)",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "phoneNumber",
+        "addressStreet",
+        "addressCity",
+        "addressState",
+        "addressZipCode",
+        "homeType",
+        "numberOfBedrooms",
+        "numberOfBathrooms",
+        "cleaningFrequency",
+        "serviceId",
+        "status",
+        "submissionDateTime"
+      ]
+    },
+    "Service": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Service",
+      "type": "object",
+      "description": "Defines the various cleaning services offered by Sparkle Pro, such as recurring cleans or deep cleans.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Service entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the cleaning service (e.g., 'Recurring Cleaning', 'Deep Cleaning', 'Move In/Out Cleaning')."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description of what the service entails."
+        },
+        "shortDescription": {
+          "type": "string",
+          "description": "A concise description of the service, suitable for display on service cards."
+        },
+        "imageUri": {
+          "type": "string",
+          "description": "URI to an image representing the service, for UI display.",
+          "format": "uri"
+        },
+        "pricingModel": {
+          "type": "string",
+          "description": "Describes how the service is priced (e.g., 'flat_rate', 'per_hour', 'per_sqft', 'per_room')."
+        },
+        "basePrice": {
+          "type": "number",
+          "description": "The starting or base price for the service."
+        },
+        "isRecurring": {
+          "type": "boolean",
+          "description": "Indicates if this service can be scheduled on a recurring basis."
+        },
+        "availableFrequencies": {
+          "type": "array",
+          "description": "A list of available frequencies for recurring services (e.g., 'Weekly', 'Bi-weekly', 'Monthly').",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "description",
+        "shortDescription",
+        "isRecurring"
+      ]
+    },
+    "ChecklistItem": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ChecklistItem",
+      "type": "object",
+      "description": "Details individual tasks from the '49-Point Checklist' used to create personalized cleaning plans.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the ChecklistItem entity."
+        },
+        "area": {
+          "type": "string",
+          "description": "The area of the home where the task is performed (e.g., 'Kitchen', 'Bathroom', 'Bedroom', 'Living Area', 'General')."
+        },
+        "task": {
+          "type": "string",
+          "description": "A concise description of the cleaning task (e.g., 'Chrome fixtures shined', 'Baseboards dusted')."
+        },
+        "description": {
+          "type": "string",
+          "description": "A more detailed explanation of how the task is executed."
+        },
+        "isStandard": {
+          "type": "boolean",
+          "description": "Indicates if this task is typically included in a standard cleaning service."
+        },
+        "isDeepCleanSpecific": {
+          "type": "boolean",
+          "description": "Indicates if this task is specifically part of a deep cleaning service."
+        },
+        "order": {
+          "type": "number",
+          "description": "The display order of this checklist item within its area."
+        }
+      },
+      "required": [
+        "id",
+        "area",
+        "task",
+        "description",
+        "isStandard",
+        "isDeepCleanSpecific",
+        "order"
+      ]
+    },
+    "Testimonial": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Testimonial",
+      "type": "object",
+      "description": "Stores customer reviews and testimonials for social proof and trust building.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Testimonial entity."
+        },
+        "customerName": {
+          "type": "string",
+          "description": "The name of the customer who provided the testimonial."
+        },
+        "rating": {
+          "type": "number",
+          "description": "The rating given by the customer, typically on a scale of 1 to 5."
+        },
+        "comment": {
+          "type": "string",
+          "description": "The actual review or comment provided by the customer."
+        },
+        "submissionDate": {
+          "type": "string",
+          "description": "The date and time when the testimonial was submitted or recorded.",
+          "format": "date-time"
+        },
+        "source": {
+          "type": "string",
+          "description": "The source of the testimonial (e.g., 'Google', 'Yelp', 'Website Form')."
+        },
+        "isApproved": {
+          "type": "boolean",
+          "description": "Indicates if the testimonial has been approved for public display."
+        }
+      },
+      "required": [
+        "id",
+        "customerName",
+        "rating",
+        "comment",
+        "submissionDate",
+        "isApproved"
+      ]
+    },
+    "FranchiseApplication": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "FranchiseApplication",
+      "type": "object",
+      "description": "Captures information from individuals interested in opening a Sparkle Pro franchise.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the FranchiseApplication entity."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the applicant."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the applicant."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the applicant.",
+          "format": "email"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The contact phone number of the applicant."
+        },
+        "addressStreet": {
+          "type": "string",
+          "description": "The street address of the applicant."
+        },
+        "addressCity": {
+          "type": "string",
+          "description": "The city of the applicant."
+        },
+        "addressState": {
+          "type": "string",
+          "description": "The state of the applicant."
+        },
+        "addressZipCode": {
+          "type": "string",
+          "description": "The zip code of the applicant."
+        },
+        "investmentCapital": {
+          "type": "number",
+          "description": "The amount of investment capital the applicant has available."
+        },
+        "experience": {
+          "type": "string",
+          "description": "A description of the applicant's previous business or franchise experience."
+        },
+        "desiredRegion": {
+          "type": "string",
+          "description": "The geographical region where the applicant desires to open a franchise."
+        },
+        "submissionDateTime": {
+          "type": "string",
+          "description": "The date and time when the franchise application was submitted.",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string",
+          "description": "The current status of the application (e.g., 'New', 'Reviewed', 'Contacted', 'Rejected')."
+        }
+      },
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "email",
+        "phoneNumber",
+        "addressStreet",
+        "addressCity",
+        "addressState",
+        "addressZipCode",
+        "submissionDateTime",
+        "status"
+      ]
+    },
+    "ContactSubmission": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ContactSubmission",
+      "type": "object",
+      "description": "Stores general inquiries, feedback, or support requests submitted through various contact forms.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the ContactSubmission entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the person submitting the contact form."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email address of the person submitting the contact form.",
+          "format": "email"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The contact phone number of the person submitting the form."
+        },
+        "subject": {
+          "type": "string",
+          "description": "The subject line or brief summary of the submission."
+        },
+        "message": {
+          "type": "string",
+          "description": "The detailed message or content of the submission."
+        },
+        "type": {
+          "type": "string",
+          "description": "The type of contact submission (e.g., 'General Inquiry', 'Reschedule Request', 'Service Feedback', 'Complaint')."
+        },
+        "submissionDateTime": {
+          "type": "string",
+          "description": "The date and time when the contact form was submitted.",
+          "format": "date-time"
+        },
+        "customerId": {
+          "type": "string",
+          "description": "Reference to the Customer if the submission is from a registered user. (Relationship: Customer 1:N ContactSubmission)"
+        },
+        "quoteId": {
+          "type": "string",
+          "description": "Reference to a specific Quote if the submission relates to a prior estimate or booking. (Relationship: Quote 1:N ContactSubmission)"
+        },
+        "status": {
+          "type": "string",
+          "description": "The current processing status of the contact submission (e.g., 'New', 'In Progress', 'Resolved')."
+        }
+      },
+      "required": [
+        "id",
+        "message",
+        "type",
+        "submissionDateTime",
+        "status"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/customers/{customerId}",
+        "definition": {
+          "entityName": "Customer",
+          "schema": {
+            "$ref": "#/backend/entities/Customer"
+          },
+          "description": "Stores individual customer profiles. Each customer document's ID (`{customerId}`) will correspond to the Firebase Authentication UID (`request.auth.uid`), ensuring only the owning customer can access their own data. This structure guarantees Authorization Independence as access is path-based and tied directly to the authenticated user."
+        }
+      },
+      {
+        "path": "/customers/{customerId}/quotes/{quoteId}",
+        "definition": {
+          "entityName": "Quote",
+          "schema": {
+            "$ref": "#/backend/entities/Quote"
+          },
+          "description": "Houses specific cleaning service quotes requested by a customer. Nested under `/customers/{customerId}`, this structure ensures that only the customer identified by `{customerId}` (which matches `request.auth.uid`) can create, read, or manage their own quotes. The `customerId` field within the Quote document is denormalized to reinforce this ownership, enabling simple and secure `list` operations for a customer's quotes without relying on `get()` calls in security rules. This directly supports Authorization Independence and QAPs.",
+          "params": [
+            {
+              "name": "customerId",
+              "description": "The unique identifier of the customer, matching their Firebase Authentication UID."
+            },
+            {
+              "name": "quoteId",
+              "description": "The unique identifier for a specific cleaning service quote."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/services/{serviceId}",
+        "definition": {
+          "entityName": "Service",
+          "schema": {
+            "$ref": "#/backend/entities/Service"
+          },
+          "description": "Defines the various cleaning services offered by Sparkle Pro. This collection holds static, publicly accessible data. All documents share a homogeneous security posture (publicly readable). Write access is restricted to administrators only. This structure enables secure `list` operations for all users, fulfilling QAPs.",
+          "params": [
+            {
+              "name": "serviceId",
+              "description": "The unique identifier for a specific cleaning service."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/checklistItems/{checklistItemId}",
+        "definition": {
+          "entityName": "ChecklistItem",
+          "schema": {
+            "$ref": "#/backend/entities/ChecklistItem"
+          },
+          "description": "Contains details for each task in the '49-Point Checklist'. This collection stores static, publicly accessible data. All documents share a homogeneous security posture (publicly readable). Write access is restricted to administrators only. This structure enables secure `list` operations for all users, fulfilling QAPs.",
+          "params": [
+            {
+              "name": "checklistItemId",
+              "description": "The unique identifier for a specific checklist item."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/testimonials_public/{testimonialId}",
+        "definition": {
+          "entityName": "Testimonial",
+          "schema": {
+            "$ref": "#/backend/entities/Testimonial"
+          },
+          "description": "Stores customer testimonials that have been approved for public display. This collection is publicly readable by all users, ensuring social proof and trust features function correctly for unauthenticated users. Write access, including setting `isApproved: true`, is restricted to administrators. This separation from pending testimonials (Structural Segregation) simplifies rules and enables QAPs for public display.",
+          "params": [
+            {
+              "name": "testimonialId",
+              "description": "The unique identifier for a specific public testimonial."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/testimonials_pending/{testimonialId}",
+        "definition": {
+          "entityName": "Testimonial",
+          "schema": {
+            "$ref": "#/backend/entities/Testimonial"
+          },
+          "description": "Holds customer testimonials that are awaiting review and approval by administrators. This collection is only accessible by administrators (read/write/delete). This structural segregation ensures that unapproved content is not publicly visible and maintains a clear, homogeneous security posture for pending reviews. It facilitates QAPs for admin review workflows.",
+          "params": [
+            {
+              "name": "testimonialId",
+              "description": "The unique identifier for a specific pending testimonial."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/franchiseApplications/{applicationId}",
+        "definition": {
+          "entityName": "FranchiseApplication",
+          "schema": {
+            "$ref": "#/backend/entities/FranchiseApplication"
+          },
+          "description": "Collects applications from individuals interested in a Sparkle Pro franchise. While anyone can create a new application document (public write on create), all subsequent read, update, and delete operations are strictly restricted to administrators. This ensures lead generation while maintaining data privacy for sensitive application information. This path supports QAPs for administrators to list all applications.",
+          "params": [
+            {
+              "name": "applicationId",
+              "description": "The unique identifier for a specific franchise application."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/contactSubmissions/{submissionId}",
+        "definition": {
+          "entityName": "ContactSubmission",
+          "schema": {
+            "$ref": "#/backend/entities/ContactSubmission"
+          },
+          "description": "Stores general inquiries and feedback submitted through various contact forms. Similar to franchise applications, new submissions can be created by any user (public write on create). However, reading, updating, or deleting these submissions is exclusive to administrators, ensuring privacy and managed workflow. This path supports QAPs for administrators to list all submissions.",
+          "params": [
+            {
+              "name": "submissionId",
+              "description": "The unique identifier for a specific contact submission."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The recommended Firestore structure for Sparkle Pro prioritizes security, scalability, and debuggability by strictly adhering to the core design principles. This is achieved through a combination of path-based ownership, structural segregation, and strategic denormalization.\n\n**Authorization Independence (CRITICAL):** Authorization Independence is paramount and is ensured primarily through two mechanisms:\n1.  **Path-Based Ownership:** For user-specific data like customer profiles (`/customers/{customerId}`) and their associated quotes (`/customers/{customerId}/quotes/{quoteId}`), the document ID or a path segment (`{customerId}`) directly matches the authenticated user's ID (`request.auth.uid`). This makes each document inherently self-authorizing, eliminating the need for `get()` calls to check parent document permissions in security rules. A user's access is directly tied to the path they are trying to access.\n2.  **Denormalization:** For the `Quote` entity, although it's nested under a customer, the `customerId` field is explicitly denormalized into the `Quote` document itself. While the path provides primary authorization, this denormalization allows for robust, atomic creation of quote documents and simplifies rule validation against the `customerId` field if needed, further reinforcing authorization independence.\n3.  **Homogeneous Collections:** For other collections (e.g., `services`, `checklistItems`, public/pending `testimonials`, `franchiseApplications`, `contactSubmissions`), access is either public or restricted to a global administrator role (managed by a system-level `/roles_admin/{uid}` pattern, though not explicitly an entity in this schema). This means authorization for these collections doesn't rely on complex cross-document `get()` calls either, as their security posture is uniform across all documents in the collection.\n\n**QAPs (Rules are not Filters):** The structure explicitly supports secure `list` operations (Query-Applies-Permissions):\n1.  **User-Owned Data:** For `quotes` nested under `/customers/{customerId}`, a `list` query automatically inherits the `{customerId}` from the path. This allows a customer to query `db.collection('customers').doc(request.auth.uid).collection('quotes')` and retrieve *only their own quotes*. The security rules can then easily verify that `request.auth.uid == customerId` for any `list` or `get` operation within that subcollection. This avoids using rules as filters, as the client-side query is inherently constrained by the user's ID.\n2.  **Public Data:** Collections like `/services`, `/checklistItems`, and `/testimonials_public` are designed for public read access. Any `list` query on these collections will return all documents because the security rules permit global reads for these homogeneous collections, eliminating filtering needs.\n3.  **Admin-Managed Data:** Collections such as `/testimonials_pending`, `/franchiseApplications`, and `/contactSubmissions` are designed for administrative access. `list` operations on these collections are restricted to authenticated users identified as administrators (e.g., by checking for their UID's existence in a `/roles_admin` collection). This ensures that only authorized personnel can view sensitive internal data, with the rules preventing any unauthorized `list` operation from returning data.\n\n**Structural Segregation:** The `Testimonial` entity is segregated into `/testimonials_public` (publicly readable) and `/testimonials_pending` (admin-only). This ensures that documents with different security requirements are not mixed within the same collection, simplifying security rules significantly and making their intent crystal clear."
+  }
+}
