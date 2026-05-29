@@ -19,7 +19,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { useUser, useFirestore, useCollection, useDoc, useMemoFirebase } from "@/firebase"
+import { useFirebase, useCollection, useDoc, useMemoFirebase } from "@/firebase"
 import { collection, doc } from "firebase/firestore"
 import { Navigation } from "@/components/Navigation"
 import { Footer } from "@/components/Footer"
@@ -28,14 +28,15 @@ import { cn } from "@/lib/utils"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 
 export default function DashboardPage() {
-  const { user, isUserLoading } = useUser()
-  const firestore = useFirestore()
+  // useFirebase() safely returns null when Firebase isn't initialized yet,
+  // preventing the crash that useFirestore() caused by throwing on load.
+  const { user, isUserLoading, firestore } = useFirebase()
   const router = useRouter()
 
-  // Strictly redirect anonymous or unauthenticated users to the login page
+  // Redirect unauthenticated / anonymous users to the account sign-in page
   React.useEffect(() => {
     if (!isUserLoading && (!user || user.isAnonymous)) {
-      router.replace("/login")
+      router.replace("/account")
     }
   }, [user, isUserLoading, router])
 
