@@ -12,8 +12,34 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // ─── Contact Submissions ───
+    // Anyone (including unauthenticated visitors) can submit the contact form.
+    // Only admins can read submissions (handled server-side / Firebase Console).
+    match /contactSubmissions/{docId} {
+      allow create: if true;
+      allow read:   if false;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    // ─── Customers ───
+    // Authenticated, non-anonymous users can read/write their own customer profile
+    // and all sub-collections (quotes, etc.).
+    match /customers/{userId} {
+      allow read, write: if request.auth != null
+                         && !request.auth.token.firebase.sign_in_provider.matches('anonymous')
+                         && request.auth.uid == userId;
+      allow delete: if false;
+
+      match /{subcollection=**} {
+        allow read, write: if request.auth != null
+                           && !request.auth.token.firebase.sign_in_provider.matches('anonymous')
+                           && request.auth.uid == userId;
+        allow delete: if false;
+      }
+    }
+
     // ─── Default Deny ───
     // All other paths are denied by default.
-    // Add new collection rules above as CleanSweep is built out.
   }
 }
