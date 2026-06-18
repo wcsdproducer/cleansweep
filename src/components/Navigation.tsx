@@ -22,7 +22,7 @@ import { useUser, useAuth } from "@/firebase"
 import { initiateSignOut } from "@/firebase/non-blocking-login"
 import { CustomerAuthModal } from "@/components/CustomerAuthModal"
 
-const LOGO_URL = "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/CleanSweep-Layer%2011%20copy.png?alt=media&token=e060532e-cc86-43f8-8780-76371d95c936"
+const LOGO_URL = "https://firebasestorage.googleapis.com/v0/b/studio-3673070449-f277c.firebasestorage.app/o/brand%2Fcleansweep-logo.png?alt=media"
 
 const cleaningTypes = [
   { name: "One-time Service", href: "/services/one-time" },

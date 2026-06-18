@@ -1,3 +1,7 @@
+## v1.2.1 — 2026-06-18
+- asset: Upload official CleanSweep company logo to Firebase Storage (brand/cleansweep-logo.png)
+- feat: Replace old placeholder logo with official logo in Navigation, Footer, CustomerAuthModal
+
 # Changelog — CleanSweep Main Site
 
 ## v1.2.0 — 2026-06-18
