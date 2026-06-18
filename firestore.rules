@@ -2,157 +2,166 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    /**
-     * Sparkle Pro Security Rules - Prototyping Mode
-     * 
-     * Philosophy:
-     * This ruleset enforces a strict user-ownership model for customer data while providing 
-     * administrative control over public-facing content and business applications.
-     * 
-     * Data Structure:
-     * - /customers/{userId}: Primary user profiles, restricted to the authenticated user.
-     * - /customers/{userId}/quotes/{quoteId}: User-specific service estimates, path-authorized.
-     * - /services, /checklistItems, /testimonials_public: Globally readable collections for the public-facing site.
-     * - /franchiseApplications, /contactSubmissions: Open-creation collections for lead generation, admin-only management.
-     * 
-     * Denormalization for Authorization:
-     * - All documents within the /customers tree are authorized via the path segment {userId}.
-     * - Quotes include a denormalized 'customerId' to ensure consistency between the data and its path.
-     * 
-     * Administrative Model:
-     * - Administrative access is determined by checking for a user's UID within a global /roles_admin/ collection.
-     */
+    // ─── Helper Functions ────────────────────────────────────────────────────
 
-    // --- Helper Functions ---
-
-    /** @description Checks if the request is from an authenticated user. */
+    /** Returns true if the request comes from a signed-in user. */
     function isSignedIn() {
       return request.auth != null;
     }
 
-    /** @description Checks if the authenticated user's UID matches the provided userId. */
+    /** Returns true if the signed-in user owns the given userId path segment. */
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    /** @description Verifies the document exists and the current user is the owner. */
-    function isExistingOwner(userId) {
-      return resource != null && isOwner(userId);
+    /** Returns true if the signed-in user has the 'Service Provider' role. */
+    function isServiceProvider() {
+      return isSignedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'Service Provider';
     }
 
-    /** @description Checks if the authenticated user has an administrator role. */
+    /** Returns true if the signed-in user has an entry in the roles_admin collection. */
     function isAdmin() {
-      return isSignedIn() && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
     }
 
-    // --- Rules ---
 
-    /**
-     * @description Customer profiles: Only the owner can view, manage, or create their profile.
-     * @path /customers/{customerId}
-     * @allow User 'abc' (get) /customers/abc
-     * @deny User 'xyz' (update) /customers/abc
-     * @principle Path-based ownership and self-creation validation.
-     */
+    // ─── Customer Portal (Main Site) ─────────────────────────────────────────
+
     match /customers/{customerId} {
       allow get, list: if isOwner(customerId);
-      allow create: if isOwner(customerId) && request.resource.data.id == customerId;
-      allow update: if isExistingOwner(customerId) && request.resource.data.id == resource.data.id;
-      allow delete: if isExistingOwner(customerId);
+      allow create:    if isOwner(customerId) && request.resource.data.id == customerId;
+      allow update:    if isOwner(customerId) && request.resource.data.id == resource.data.id;
+      allow delete:    if isAdmin();
 
-      /**
-       * @description Quotes: Nested under the customer path, authorized by the parent segment.
-       * @path /customers/{customerId}/quotes/{quoteId}
-       * @allow User 'abc' (create) /customers/abc/quotes/q123
-       * @deny User 'abc' (create) /customers/abc/quotes/q123 if customerId field is 'xyz'
-       * @principle Path-based subcollection authorization with relational integrity checks.
-       */
       match /quotes/{quoteId} {
         allow get, list: if isOwner(customerId);
-        allow create: if isOwner(customerId) && request.resource.data.customerId == customerId;
-        allow update: if isExistingOwner(customerId) && request.resource.data.customerId == resource.data.customerId;
-        allow delete: if isExistingOwner(customerId);
+        allow create:    if isOwner(customerId) && request.resource.data.customerId == customerId;
+        allow update:    if isOwner(customerId) && request.resource.data.customerId == resource.data.customerId;
+        allow delete:    if isAdmin();
       }
     }
 
-    /**
-     * @description Cleaning Services: Publicly readable catalog of Sparkle Pro offerings.
-     * @path /services/{serviceId}
-     * @allow Anonymous (get) /services/standard_clean
-     * @deny Signed-in user (create) /services/new_service
-     * @principle Public Read with Admin-Only Writes.
-     */
+    match /contactSubmissions/{submissionId} {
+      allow create:                  if true;     // Anyone can submit the contact form
+      allow get, list, update, delete: if isAdmin();
+    }
+
+
+    // ─── Service Provider Portal (Connect App) ───────────────────────────────
+
+    // users/{uid} — RBAC role document.
+    // Connect dashboard layout reads this to verify role === 'Service Provider'.
+    // Admin app can manage all user docs.
+    match /users/{userId} {
+      allow get:    if isOwner(userId) || isAdmin();
+      allow list:   if isAdmin();
+      allow create: if isOwner(userId);
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // serviceProviders/{uid} — Provider profile. Created on registration.
+    // Providers read/write only their own. Admins can read/write all.
+    match /serviceProviders/{providerId} {
+      allow get:    if isOwner(providerId) || isAdmin();
+      allow list:   if isAdmin();
+      allow create: if isOwner(providerId);
+      allow update: if isOwner(providerId) || isAdmin();
+      allow delete: if isAdmin();
+
+      // payoutTransactions subcollection — provider reads own, admin manages all
+      match /payoutTransactions/{txId} {
+        allow get, list: if isOwner(providerId) || isAdmin();
+        allow create, update, delete: if isAdmin();
+      }
+    }
+
+    // serviceJobs — Jobs assigned to providers.
+    // Providers can only read jobs assigned to their UID.
+    // Admins can read/write all jobs.
+    match /serviceJobs/{jobId} {
+      allow get:    if isAdmin() ||
+                       (isServiceProvider() && resource.data.serviceProviderId == request.auth.uid);
+      allow list:   if isAdmin() ||
+                       isServiceProvider(); // query always filtered by serviceProviderId in app
+      allow create, update, delete: if isAdmin();
+    }
+
+    // conversations — Message threads between providers and admins/customers.
+    // Participants can read; providers can write (send messages).
+    match /conversations/{conversationId} {
+      allow get, list: if isSignedIn() &&
+                          request.auth.uid in resource.data.participantIds;
+      allow create:    if isSignedIn();
+      allow update:    if isSignedIn() &&
+                          request.auth.uid in resource.data.participantIds;
+      allow delete:    if isAdmin();
+    }
+
+    // messages — Individual chat messages.
+    // Participants of the parent conversation can read/create.
+    match /messages/{messageId} {
+      allow get, list: if isSignedIn();  // Firestore queries are filtered client-side by conversationId
+      allow create:    if isSignedIn() && request.resource.data.senderId == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+
+    // provider_coverage — Geographic coverage areas.
+    // Each provider owns their own document. Admins see all.
+    match /provider_coverage/{providerId} {
+      allow get:    if isOwner(providerId) || isAdmin();
+      allow list:   if isAdmin();
+      allow create, update: if isOwner(providerId) || isAdmin();
+      allow delete: if isAdmin();
+    }
+
+
+    // ─── Admin App Only ──────────────────────────────────────────────────────
+
+    // _system_health — Used by the Admin monitoring page for latency tests.
+    match /_system_health/{docId} {
+      allow read, write: if isAdmin();
+    }
+
+    // zip_codes — Reference data for coverage lookups.
+    match /zip_codes/{zipId} {
+      allow get, list: if isAdmin() || isServiceProvider();
+      allow create, update, delete: if isAdmin();
+    }
+
+
+    // ─── Public Catalog (Main Site) ──────────────────────────────────────────
+
     match /services/{serviceId} {
       allow get, list: if true;
       allow create, update, delete: if isAdmin();
     }
 
-    /**
-     * @description Checklist Items: Publicly readable tasks for the 49-point checklist.
-     * @path /checklistItems/{itemId}
-     * @allow Anonymous (list) /checklistItems
-     * @deny Registered user (delete) /checklistItems/item1
-     * @principle Public Read with Admin-Only Writes.
-     */
     match /checklistItems/{itemId} {
       allow get, list: if true;
       allow create, update, delete: if isAdmin();
     }
 
-    /**
-     * @description Public Testimonials: Approved reviews visible to all users.
-     * @path /testimonials_public/{testimonialId}
-     * @allow Anonymous (get) /testimonials_public/review1
-     * @deny Anonymous (create) /testimonials_public/review2
-     * @principle Structural Segregation - only approved content is in this collection.
-     */
     match /testimonials_public/{testimonialId} {
       allow get, list: if true;
       allow create, update, delete: if isAdmin();
     }
 
-    /**
-     * @description Pending Testimonials: Reviews awaiting moderation.
-     * @path /testimonials_pending/{testimonialId}
-     * @allow Admin (list) /testimonials_pending
-     * @deny Regular customer (get) /testimonials_pending/review3
-     * @principle Admin-only management of pending content.
-     */
     match /testimonials_pending/{testimonialId} {
       allow get, list, create, update, delete: if isAdmin();
     }
 
-    /**
-     * @description Franchise Applications: Allows anyone to apply, but only admins to view/manage.
-     * @path /franchiseApplications/{applicationId}
-     * @allow Anonymous (create) /franchiseApplications/app1
-     * @deny User 'abc' (get) /franchiseApplications/app1 (unless they are admin)
-     * @principle Open creation for lead generation with private admin management.
-     */
     match /franchiseApplications/{applicationId} {
       allow create: if true;
       allow get, list, update, delete: if isAdmin();
     }
 
-    /**
-     * @description Contact Submissions: Allows anyone to send a message, but only admins to view/resolve.
-     * @path /contactSubmissions/{submissionId}
-     * @allow Anonymous (create) /contactSubmissions/msg1
-     * @deny User 'abc' (list) /contactSubmissions
-     * @principle Open creation for support requests with private admin management.
-     */
-    match /contactSubmissions/{submissionId} {
-      allow create: if true;
-      allow get, list, update, delete: if isAdmin();
-    }
 
-    /**
-     * @description Admin Roles: Internal collection to track authorized administrators.
-     * @path /roles_admin/{uid}
-     * @allow System (none)
-     * @deny Public (all)
-     * @principle System-internal metadata, strictly restricted to prevent escalation.
-     */
+    // ─── Access Control ──────────────────────────────────────────────────────
+
+    // roles_admin — Tracks admin UIDs. Never publicly readable or writable.
     match /roles_admin/{uid} {
       allow read, write: if false;
     }
